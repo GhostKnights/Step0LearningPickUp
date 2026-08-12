@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://ban7g2ntdthhj"]
+
+[ext_resource type="PackedScene" uid="uid://fb6nl7stokwy" path="res://menu.tscn" id="1_fmha2"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_din1b"]
+size = Vector2(9, 16)
+
+[node name="PickUp" type="Node3D" unique_id=502715610]
+
+[node name="Floor" type="MeshInstance3D" parent="." unique_id=829836695]
+mesh = SubResource("PlaneMesh_din1b")
+
+[node name="MainCamera" type="Camera3D" parent="." unique_id=430609513]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 3.8660889, 4.216695)
+projection = 1
+current = true
+size = 16.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2063915781]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5.7249227, 6.6984787)
+light_color = Color(1, 0.972549, 0.9098039, 1)
+light_energy = 3.0
+directional_shadow_mode = 0
+
+[node name="Menu" parent="." unique_id=1664645945 instance=ExtResource("1_fmha2")]
