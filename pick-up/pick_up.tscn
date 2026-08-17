@@ -1,14 +1,53 @@
 [gd_scene format=3 uid="uid://ban7g2ntdthhj"]
 
+[ext_resource type="Script" uid="uid://dl5c33urfo81l" path="res://pick_up.gd" id="1_2bc0b"]
 [ext_resource type="PackedScene" uid="uid://fb6nl7stokwy" path="res://menu.tscn" id="1_fmha2"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_din1b"]
 size = Vector2(9, 16)
 
-[node name="PickUp" type="Node3D" unique_id=502715610]
+[sub_resource type="BoxShape3D" id="BoxShape3D_xi2mn"]
+size = Vector3(9, 0.2, 16)
 
-[node name="Floor" type="MeshInstance3D" parent="." unique_id=829836695]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fmha2"]
+albedo_color = Color(0.7496323, 0.0015098617, 0.59203374, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2bc0b"]
+material = SubResource("StandardMaterial3D_fmha2")
+size = Vector3(1, 1, 1.800293)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qax2p"]
+albedo_color = Color(0.43895942, 0.6247584, 0.2958695, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wrmyl"]
+material = SubResource("StandardMaterial3D_qax2p")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y245o"]
+albedo_color = Color(0.5373635, 0.41707712, 0.13310125, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_we4tx"]
+material = SubResource("StandardMaterial3D_y245o")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xi2mn"]
+albedo_color = Color(0.38965458, 0.28950104, 0.9507151, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_din1b"]
+material = SubResource("StandardMaterial3D_xi2mn")
+size = Vector3(0.3, 0.2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wrmyl"]
+size = Vector3(0.3, 0.3, 1)
+
+[node name="PickUp" type="Node3D" unique_id=502715610]
+script = ExtResource("1_2bc0b")
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1069585849]
+
+[node name="FloorMesh" type="MeshInstance3D" parent="Floor" unique_id=829836695]
 mesh = SubResource("PlaneMesh_din1b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=162250966]
+shape = SubResource("BoxShape3D_xi2mn")
 
 [node name="MainCamera" type="Camera3D" parent="." unique_id=430609513]
 transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 3.8660889, 4.216695)
@@ -23,3 +62,26 @@ light_energy = 3.0
 directional_shadow_mode = 0
 
 [node name="Menu" parent="." unique_id=1664645945 instance=ExtResource("1_fmha2")]
+
+[node name="testmesh2" type="MeshInstance3D" parent="." unique_id=1196134070]
+transform = Transform3D(1.748782, 0, 0, 0, 1, 0, 0, 0, 1, -1.281964, 0.598274, 3.1105936)
+mesh = SubResource("BoxMesh_2bc0b")
+
+[node name="testmesh3" type="MeshInstance3D" parent="." unique_id=166968880]
+transform = Transform3D(0.22964904, 0, 0, 0, 0.17438775, 0, 0, 0, 0.16382271, 2.5681424, 1.16735, 1.1893609)
+mesh = SubResource("CapsuleMesh_wrmyl")
+
+[node name="testmesh4" type="MeshInstance3D" parent="." unique_id=1900228809]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5144162, 0.598274, 4.2372675)
+mesh = SubResource("BoxMesh_we4tx")
+
+[node name="TestBox1" type="StaticBody3D" parent="." unique_id=131953470]
+collision_layer = 2
+
+[node name="testbox1mesh" type="MeshInstance3D" parent="TestBox1" unique_id=354837926]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5294186, 0.598274, 1.1893609)
+mesh = SubResource("BoxMesh_din1b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestBox1" unique_id=818034135]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5294186, 0.598274, 1.1893609)
+shape = SubResource("BoxShape3D_wrmyl")
