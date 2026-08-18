@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dw1yhl4n03gvg"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ra64y"]
+friction = 0.2
+bounce = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xi2mn"]
+albedo_color = Color(0.38965458, 0.28950104, 0.9507151, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ra64y"]
+material = SubResource("StandardMaterial3D_xi2mn")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ssxxy"]
+
+[node name="PackedScene" type="RigidBody3D" unique_id=383398720]
+collision_layer = 2
+axis_lock_angular_y = true
+physics_material_override = SubResource("PhysicsMaterial_ra64y")
+gravity_scale = 0.0
+lock_rotation = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=24890061]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5294186, 0.598274, 1.1893609)
+layers = 3
+mesh = SubResource("BoxMesh_ra64y")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=133751017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5294186, 0.598274, 1.1893609)
+shape = SubResource("BoxShape3D_ssxxy")
