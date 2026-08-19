@@ -12,6 +12,11 @@ extends Node3D
 @export var move_speed:float = 3
 @export var dir_change_interval:float = 2.2 #多久随机换一次方向
 
+#物体面积
+@export var area:float = 1
+
+#游戏计分
+var Scores:int = 0
 const GeneratedNumber = 25
 const RAY_LENGTH = 1000
 # @onready：场景树准备完成后自动赋值，替代手动在_ready写$查找
@@ -62,6 +67,7 @@ func _physics_process(_delta) -> void:
 				rb.linear_velocity.z = -vel.z
 
 func restart_game():
+	Scores = 0
 	pass
 
 
@@ -78,8 +84,12 @@ func _input(event):
 			if result:
 				var hit_body = result["collider"]
 				var obj_name = hit_body.name   # 获取节点名字
-				print("点击物体名字：", obj_name)   
-			pass
+				area = hit_body.get_meta("area") #获取物体面积
+				var add_score = ConfigManager.get_score_by_area(area)
+				Scores = Scores + add_score
+				print("点击物体名字是",obj_name,"面积是",area,"目前分数是",Scores)
+				hit_body.queue_free()
+
 
 func spawn_random_item():
 	var found:bool = false
@@ -145,6 +155,8 @@ func spawn_random_item():
 	
 #启动物体随机漂移逻辑
 	inst.set_meta("move_speed",move_speed)
+	area = area * scalex * scalez
+	inst.set_meta("area",area)
 	_start_object_drift(inst)
 
 #给单个刚体启动持续随机变向 + 边界反弹
