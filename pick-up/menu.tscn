@@ -4,14 +4,17 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_xi2mn"]
 font_size = 40
+font_color = Color(0.12941177, 0.12941177, 0.12941177, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lti8b"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_din1b"]
 font_size = 30
+font_color = Color(0.12941177, 0.12941177, 0.12941177, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_lti8b"]
 font_size = 40
+font_color = Color(0.12941177, 0.12941177, 0.12941177, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_wrmyl"]
 font_size = 100
@@ -25,6 +28,7 @@ stacked_outline_count = 1
 
 [sub_resource type="LabelSettings" id="LabelSettings_vsb4k"]
 font_size = 40
+font_color = Color(0.12941177, 0.12941177, 0.12941177, 1)
 
 [node name="Menu" type="CanvasLayer" unique_id=1664645945]
 
@@ -59,7 +63,7 @@ text = "分数
 "
 label_settings = SubResource("LabelSettings_xi2mn")
 
-[node name="Textl_Number" type="Label" parent="Top/Panel_TopLeft" unique_id=928416615]
+[node name="Text_Number" type="Label" parent="Top/Panel_TopLeft" unique_id=928416615]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -72,7 +76,7 @@ offset_right = 32.0
 offset_bottom = -60.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "450
+text = "
 
 "
 label_settings = SubResource("LabelSettings_xi2mn")
@@ -132,6 +136,7 @@ grow_vertical = 2
 text = "204
 "
 label_settings = SubResource("LabelSettings_wrmyl")
+horizontal_alignment = 1
 
 [node name="Panel_TopRight" type="Panel" parent="Top" unique_id=548028621]
 custom_minimum_size = Vector2(240, 0)
@@ -149,11 +154,10 @@ label_settings = SubResource("LabelSettings_vsb4k")
 
 [node name="Text_LeftTimes" type="Label" parent="Top/Panel_TopRight" unique_id=1559737539]
 layout_mode = 0
-offset_left = 86.0
-offset_top = 6.0
-offset_right = 412.0
-offset_bottom = 177.0
-text = "
-12
+offset_left = 77.0
+offset_top = 56.0
+offset_right = 403.0
+offset_bottom = 227.0
+text = "12
 "
 label_settings = SubResource("LabelSettings_vsb4k")

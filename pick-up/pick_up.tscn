@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dl5c33urfo81l" path="res://pick_up.gd" id="1_2bc0b"]
 [ext_resource type="PackedScene" uid="uid://fb6nl7stokwy" path="res://menu.tscn" id="1_fmha2"]
 [ext_resource type="PackedScene" uid="uid://dw1yhl4n03gvg" path="res://packed_scene.tscn" id="2_qax2p"]
+[ext_resource type="Script" uid="uid://cm76n3ckwibrv" path="res://menu.gd" id="4_y245o"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_din1b"]
 size = Vector2(9, 16)
@@ -35,3 +36,4 @@ light_energy = 3.0
 directional_shadow_mode = 0
 
 [node name="Menu" parent="." unique_id=1664645945 instance=ExtResource("1_fmha2")]
+script = ExtResource("4_y245o")

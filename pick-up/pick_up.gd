@@ -1,4 +1,6 @@
 extends Node3D
+# 根据你真实节点路径填写
+@onready var hud: CanvasLayer = $Menu
 
 # 拖入你的预制体 ItemPrefab.tscn
 @export var item_prefab: PackedScene
@@ -11,6 +13,10 @@ extends Node3D
 #物体移动参数
 @export var move_speed:float = 3
 @export var dir_change_interval:float = 2.2 #多久随机换一次方向
+
+#游戏结束条件
+@export var pickUpLeftTimes:int = 10
+@export var pickUpCountDown:int = 99
 
 #物体面积
 @export var area:float = 1
@@ -32,9 +38,7 @@ var placed_list: Array[Dictionary] = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	restart_game()
-	# 批量生成prefab
-	for i in spawn_count:
-		spawn_random_item()
+
 		
 #2D AABB相交判断：true代表发生重叠
 func aabb_overlap(c1:Vector2, hx1:float, hz1:float, c2:Vector2, hx2:float, hz2:float) -> bool:
@@ -68,7 +72,19 @@ func _physics_process(_delta) -> void:
 
 func restart_game():
 	Scores = 0
-	pass
+	pickUpLeftTimes = 10
+	pickUpCountDown = 99
+	# 批量生成prefab
+	for i in spawn_count:
+		spawn_random_item()
+		
+	hud.update_ui(Scores,pickUpLeftTimes)
+	hud.set_countdown_time(pickUpCountDown)
+	
+	# 监听HUD发出的时间结束信号
+	hud.game_time_over.connect(_on_game_timeout,CONNECT_DEFERRED)
+	
+
 
 
 
@@ -89,6 +105,14 @@ func _input(event):
 				Scores = Scores + add_score
 				print("点击物体名字是",obj_name,"面积是",area,"目前分数是",Scores)
 				hit_body.queue_free()
+				pickUpLeftTimes = pickUpLeftTimes - 1
+				hud.update_ui(Scores,pickUpLeftTimes)
+				
+				if pickUpLeftTimes <= 0:
+					hud.emit_signal("game_time_over")
+
+
+				
 
 
 func spawn_random_item():
@@ -175,3 +199,9 @@ func _start_object_drift(rb:RigidBody3D):
 	#初始方向
 	var init_dir = Vector3(randf_range(-1,1),0,randf_range(-1,1)).normalized()
 	rb.linear_velocity = init_dir * move_speed
+	
+	# 时间到，HUD发出信号，主场景收到做游戏结束
+func _on_game_timeout():
+	print("游戏时间结束！")
+	# 写你的游戏结束逻辑：停止生成方块、关闭输入等
+	get_tree().paused = true
