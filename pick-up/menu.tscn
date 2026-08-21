@@ -1,5 +1,29 @@
 [gd_scene format=3 uid="uid://fb6nl7stokwy"]
 
+[ext_resource type="Script" uid="uid://8mcuq4x6f13" path="res://finish_popup.gd" id="1_lti8b"]
+
+[sub_resource type="Theme" id="Theme_lti8b"]
+
+[sub_resource type="Theme" id="Theme_mae5d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lti8b"]
+bg_color = Color(0.28572133, 0.62822324, 0.8959577, 1)
+
+[sub_resource type="Theme" id="Theme_ouk20"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3hyh2"]
+font_size = 64
+outline_size = 5
+
+[sub_resource type="SystemFont" id="SystemFont_xi2mn"]
+
+[sub_resource type="Theme" id="Theme_din1b"]
+default_font = SubResource("SystemFont_xi2mn")
+default_font_size = 40
+
+[sub_resource type="Theme" id="Theme_vsb4k"]
+default_font_size = 40
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vsb4k"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_xi2mn"]
@@ -32,9 +56,92 @@ font_color = Color(0.12941177, 0.12941177, 0.12941177, 1)
 
 [node name="Menu" type="CanvasLayer" unique_id=1664645945]
 
-[node name="FinishPopup" type="PopupPanel" parent="." unique_id=2050550956]
-mode = 3
-size = Vector2i(1080, 1920)
+[node name="FinishPopup" type="Control" parent="." unique_id=547818093]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 140.0
+offset_top = 760.0
+offset_right = 940.0
+offset_bottom = 1160.0
+theme = SubResource("Theme_lti8b")
+script = ExtResource("1_lti8b")
+
+[node name="BackGround" type="Panel" parent="FinishPopup" unique_id=455000505]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_mae5d")
+theme_override_styles/panel = SubResource("StyleBoxFlat_lti8b")
+
+[node name="Control" type="Control" parent="FinishPopup" unique_id=1734784264]
+anchors_preset = 0
+offset_right = 800.0
+offset_bottom = 400.0
+theme = SubResource("Theme_ouk20")
+
+[node name="Label_Finish3" type="Label" parent="FinishPopup/Control" unique_id=2045888866]
+layout_mode = 0
+offset_right = 800.0
+offset_bottom = 400.0
+text = "      最终分数："
+label_settings = SubResource("LabelSettings_3hyh2")
+vertical_alignment = 1
+
+[node name="Label_Finish" type="Label" parent="FinishPopup/Control" unique_id=1430476414]
+layout_mode = 0
+offset_right = 800.0
+offset_bottom = 400.0
+text = "游戏结束"
+label_settings = SubResource("LabelSettings_3hyh2")
+horizontal_alignment = 1
+
+[node name="Text_Finish" type="Label" parent="FinishPopup/Control" unique_id=629487745]
+custom_minimum_size = Vector2(-1, -1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -400.0
+offset_right = 400.0
+offset_bottom = 400.0
+grow_horizontal = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(500, 155)
+text = "355
+
+"
+label_settings = SubResource("LabelSettings_3hyh2")
+horizontal_alignment = 3
+vertical_alignment = 3
+
+[node name="Btn_Restart" type="Button" parent="FinishPopup/Control" unique_id=760983610]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 103.0
+offset_top = 267.0
+offset_right = 303.0
+offset_bottom = 367.0
+offset_transform_enabled = true
+theme = SubResource("Theme_din1b")
+text = "重新开始"
+flat = true
+
+[node name="Btn_GameOver" type="Button" parent="FinishPopup/Control" unique_id=1608188413]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 429.0
+offset_top = 265.0
+offset_right = 629.0
+offset_bottom = 365.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+offset_transform_enabled = true
+theme = SubResource("Theme_vsb4k")
+text = "结束游戏"
+flat = true
 
 [node name="Top" type="HBoxContainer" parent="." unique_id=480543393]
 custom_minimum_size = Vector2(1080, 300)

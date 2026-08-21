@@ -21,6 +21,9 @@ extends Node3D
 #物体面积
 @export var area:float = 1
 
+var is_game_ended:bool = false
+var is_game_paused:bool = false
+
 #游戏计分
 var Scores:int = 0
 const GeneratedNumber = 25
@@ -35,8 +38,16 @@ var placed_list: Array[Dictionary] = []
 @export var orig_half_x:float = 1.0
 @export var orig_half_z:float = 1.0
 
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# 监听HUD发出的时间结束信号
+	hud.game_time_over.connect(_on_game_timeout,CONNECT_DEFERRED)
+	
+	#监听结算面板的【重新开始】信号，执行游戏重置
+	var finishPanel = hud.get_node("FinishPopup")
+	finishPanel.request_restart.connect(restart_game)
 	restart_game()
 
 		
@@ -71,6 +82,9 @@ func _physics_process(_delta) -> void:
 				rb.linear_velocity.z = -vel.z
 
 func restart_game():
+	is_game_ended = false
+	is_game_paused = false
+	get_tree().paused = false
 	Scores = 0
 	pickUpLeftTimes = 10
 	pickUpCountDown = 99
@@ -81,14 +95,24 @@ func restart_game():
 	hud.update_ui(Scores,pickUpLeftTimes)
 	hud.set_countdown_time(pickUpCountDown)
 	
-	# 监听HUD发出的时间结束信号
-	hud.game_time_over.connect(_on_game_timeout,CONNECT_DEFERRED)
+	#隐藏结算弹窗
+	var finishPanel = hud.get_node("FinishPopup")
+	finishPanel.visible = false
+	
 	
 
 
 
 
 func _input(event):
+	# 如果游戏已经结束，直接退出，不处理鼠标拾取
+	if is_game_ended:
+		return
+		
+	# 如果游戏已经暂停，直接退出，不处理鼠标拾取
+	if is_game_paused:
+		return
+		
 	if event.is_action_pressed("mouse_left"):
 		if event is InputEventMouseButton:
 			var from = cam.project_ray_origin(event.position)
@@ -109,7 +133,7 @@ func _input(event):
 				hud.update_ui(Scores,pickUpLeftTimes)
 				
 				if pickUpLeftTimes <= 0:
-					hud.emit_signal("game_time_over")
+					gameover()
 
 
 				
@@ -166,6 +190,9 @@ func spawn_random_item():
 	mesh_inst.material_override = mat
 
 	add_child(inst)
+	# 给方块打上标签game_block
+	inst.add_to_group("game_block")
+	
 	inst.global_position = Vector3(ok_center.x, 0.0, ok_center.y)
 	mesh_inst.scale = Vector3(scalex,1,scalez)
 	collision_inst.scale = Vector3(scalex,1,scalez)
@@ -202,6 +229,22 @@ func _start_object_drift(rb:RigidBody3D):
 	
 	# 时间到，HUD发出信号，主场景收到做游戏结束
 func _on_game_timeout():
-	print("游戏时间结束！")
-	# 写你的游戏结束逻辑：停止生成方块、关闭输入等
+	gameover()
+	
+# 写你的游戏结束逻辑：停止生成方块、关闭输入等
+func gameover():
+	is_game_ended = true
 	get_tree().paused = true
+	is_game_paused = true
+	var finishPanel = hud.get_node("FinishPopup")
+	finishPanel.set_ui_result(Scores)
+	finishPanel.visible = true
+	placed_list.clear()
+	clear_all_blocks()
+	
+func clear_all_blocks():
+	#拿到所有带game_block标签的节点
+	var blocks = get_tree().get_nodes_in_group("game_block")
+	for blk in blocks:
+		if is_instance_valid(blk):
+			blk.queue_free()
